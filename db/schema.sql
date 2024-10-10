@@ -10,8 +10,8 @@ CREATE TABLE role (
   id SERIAL PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
   salary DECIMAL,
-  department INTEGER,
-  FOREIGN KEY (department) REFERENCES department(id)
+  department_id INTEGER,
+  FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE employee (
@@ -20,5 +20,5 @@ CREATE TABLE employee (
   last_name VARCHAR(30) NOT NULL,
   role_id INTEGER NOT NULL,
   FOREIGN KEY (role_id) REFERENCES role(id),
-  manager_id INTEGER,
+  manager_id INTEGER REFERENCES employee(id)
 );
