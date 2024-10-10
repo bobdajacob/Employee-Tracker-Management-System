@@ -57,6 +57,58 @@ function viewEmployees() {
   }); 
 }
 
+function addDepartment() {
+  inquirer.prompt ({
+    type: 'input',
+    name: 'departmentName',
+    message: 'What is the name of the department?',
+    validate: input => input.trim() ? true : `Don't leave blank`,
+  })
+  .then(res => {
+    // console.log('Department Name:', res.departmentName);
+    const sql = 'INSERT INTO department (name) VALUES ($1)';
+    db.query(sql, [res.departmentName], (err, res) => {
+      if (err) {
+        console.error(`There's an error adding the department`);
+        return;
+      }
+      console.log('New department added successfully to the database!', res);
+      main();
+    });
+  })
+}
 
+function addRole() {
+  inquirer.prompt ([
+  {
+    type: 'input',
+    name: 'roleName',
+    message: 'What is the name of the role?',
+    validate: input => input.trim() ? true : `Don't leave blank!`
+  },
+  {
+    type: 'input',
+    name: 'salaryRole',
+    message: 'What is the salary of the role',
+    validate: input => input.trim() ? true : `Don't leave blank!`,
+  },
+  {
+    type: 'list',
+    name: 'departmentRole',
+    message: 'Which department does the role belong to?',
+    choices: ['Engineering', 'Finance', 'Legal', 'Sales', 'Service']
+  }])
+  .then(res => {
+    const sql = `INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)`;
+    db.query(sql, [res.roleName, res.salaryRole, res.departmentRole], (err, res) => {
+      if (err) {
+        console.error(`There's an error when adding the role`, err);
+        return;
+      }
+      console.log('New role added successfully to the database!', res);
+      main();
+    });
+  })
+};
 
 main();
