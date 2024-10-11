@@ -56,15 +56,6 @@ function viewEmployees() {
     main(); 
   }); 
 }
-
-// db.query(`SELECT * FROM employee`, (err, employeeRes) => {
-//   if (err) throw err;
-//   const employees = employeeRes.rows.map(employee => ({
-//     name: `${employee.first_name} ${employee.last_name}`,
-//     value: employee.id,          
-// }));
-// })
-
 function addDepartment() {
       inquirer.prompt ({
         type: 'input',
