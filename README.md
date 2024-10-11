@@ -46,7 +46,7 @@ Revise the roles of employees: Choose an employee and give them a new role to ch
 
 ## Walkthrough Video Link
 ```
-placeholder
+https://drive.google.com/file/d/1PrnsG81bahj0TSE1q72dOFpoDgLvwsqr/view
 ```
 
 ## GitHub Link
