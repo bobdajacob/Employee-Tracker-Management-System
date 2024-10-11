@@ -102,6 +102,7 @@ function addRole() {
       'Service'],
   }
 ])
+
   .then (res => {
     const departmentId = {
       'Engineering': 2,
@@ -123,13 +124,6 @@ function addRole() {
     });
   })
 };
-
-// db.query(`SELECT * FROM employee`, (err, employeeRes) => {
-//   if (err) throw err;
-//   const employees = employeeRes.rows.map(employee => ({
-//     name: `${employee.first_name} ${employee.last_name}`,
-//   value: employee
-// }));
 
 function addEmployee() {
   db.query(`SELECT * FROM role`, (err, roleRes) => {
@@ -169,51 +163,51 @@ function addEmployee() {
           message: `Who is the employee's manager?`,
           choices: managers,
         },
-      ]);
-    })
+      ])
   .then (res => {
     const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)`
     db.query(sql, [res.employeeFirstName, res.employeeLastName, res.employeeRole, res.employeeManager], (err, res) => {
       if (err) {
-          console.error(`There's an error adding the employee`, err);
-          return;
-        }
-        console.log(`Added new employee to the database!`, res);
-        main();
+            console.error(`There's an error adding the employee`, err);
+            return;
+          }
+            console.log(`Added new employee to the database!`, res);
+            main();
+        });
+      });
       });
     });
-  }
-)};
-  
-  function updateEmployeeRole() {
-    db.query(`SELECT * FROM employee`, (err, employeeRes) => {
-      if (err) throw err;
-      const employees = employeeRes.rows.map(employee => ({
-        name: `${employee.first_name} ${employee.last_name}`,
-        value: employee.id,          
-    }));
-    db.query(`SELECT * FROM role`, (err, roleRes) => {
-      if (err) throw err;
+  };
 
-      const roles = roleRes.rows.map(role => ({
-        name: role.title,
-        value: role.id,
+    function updateEmployeeRole() {
+      db.query(`SELECT * FROM employee`, (err, employeeRes) => {
+        if (err) throw err;
+        const employees = employeeRes.rows.map(employee => ({
+          name: `${employee.first_name} ${employee.last_name}`,
+          value: employee.id,          
       }));
-    
-    inquirer.prompt ([
-      {
-        type: 'list',
-        name: 'updateEmployeeNameRole',
-        message: `Which employee's role do you want to update?`,
-        choices: employees,
-      },
-      {
-        type: 'list',
-        name: 'newRoleId',
-        message: ' Which role do you want to assign to the selected employee?',
-        choices: roles,
-      },
-    ])
+      db.query(`SELECT * FROM role`, (err, roleRes) => {
+        if (err) throw err;
+
+        const roles = roleRes.rows.map(role => ({
+          name: role.title,
+          value: role.id,
+        }));
+      
+      inquirer.prompt ([
+        {
+          type: 'list',
+          name: 'updateEmployeeNameRole',
+          message: `Which employee's role do you want to update?`,
+          choices: employees,
+        },
+        {
+          type: 'list',
+          name: 'newRoleId',
+          message: ' Which role do you want to assign to the selected employee?',
+          choices: roles,
+        },
+      ])
     .then(res => {
       const sql = `UPDATE employee SET role_id = $1 WHERE id = $2`;
       db.query(sql, [res.newRoleId, res.updateEmployeeNameRole], (err, updateRes) => {
@@ -221,12 +215,12 @@ function addEmployee() {
           console.error(`There's an error updating employee's role`, err);
           return;
         }
-        console.log(`Updated the employee's new role successfully!`);
-        main();
+          console.log(`Updated the employee's new role successfully!`);
+          main();
+        });
       });
     });
   });
-});
 }
 
 main();
