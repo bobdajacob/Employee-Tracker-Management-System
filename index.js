@@ -10,7 +10,6 @@ function main() {
   })
   
   .then(res => {
-    console.log(res.options);
     if (res.options === 'View all departments') {
       viewDepartments();
     } else if (res.options === 'View all roles') {
