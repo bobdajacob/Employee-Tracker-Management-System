@@ -224,22 +224,3 @@ function addEmployee() {
 }
 
 main();
-
-
-
-// const departmentId = {
-//   'Sales Lead': 1,
-//   'Lead Engineer': 2,
-//   'Account Manager': 3,
-//   'Lawyer': 4,
-//   'Customer Service': 5,
-// };
-// const managerId = {
-//   'None':null,
-//   'Jake Myers': 1,
-//   'Mike Smith': 2,
-//   'Blake Woods': 3,
-//   'John Adams': 4 ,
-// }
-// const transferredRoleId = departmentId[res.employeeRole];
-// const transferredManager = managerId[res.employeeManager];
