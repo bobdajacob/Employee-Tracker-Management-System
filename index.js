@@ -57,27 +57,42 @@ function viewEmployees() {
   }); 
 }
 
+// db.query(`SELECT * FROM employee`, (err, employeeRes) => {
+//   if (err) throw err;
+//   const employees = employeeRes.rows.map(employee => ({
+//     name: `${employee.first_name} ${employee.last_name}`,
+//     value: employee.id,          
+// }));
+// })
+
 function addDepartment() {
-  inquirer.prompt ({
-    type: 'input',
-    name: 'departmentName',
-    message: 'What is the name of the department?',
-    validate: input => input.trim() ? true : `Don't leave blank`,
-  })
-  .then(res => {
-    const sql = 'INSERT INTO department (name) VALUES ($1)';
-    db.query(sql, [res.departmentName], (err, res) => {
-      if (err) {
-        console.error(`There's an error adding the department`);
-        return;
-      }
-      console.log('New department added successfully to the database!', res);
-      main();
+      inquirer.prompt ({
+        type: 'input',
+        name: 'departmentName',
+        message: 'What is the name of the department?',
+        validate: input => input.trim() ? true : `Don't leave blank`,
+      })
+      .then(res => {
+      const sql = 'INSERT INTO department (name) VALUES ($1)';
+      db.query(sql, [res.departmentName], (err, res) => {
+        if (err) {
+          console.error(`There's an error adding the department`, err);
+          return;
+        }
+        console.log('New department added successfully to the database!', res);
+        main();
+      });
     });
-  })
-}
+  };
+
 
 function addRole() {
+  db.query(`SELECT * FROM department`, (err, departmentRes) => {
+    if (err) throw err;
+    const departments = departmentRes.rows.map(department => ({
+      name: department.name,
+      value: department.id
+    }));
   inquirer.prompt ([
   {
     type: 'input',
@@ -95,11 +110,7 @@ function addRole() {
     type: 'list',
     name: 'departmentRole',
     message: 'Which department does the role belong to?',
-    choices: ['Engineering',
-      'Finance', 
-      'Legal', 
-      'Sales',
-      'Service'],
+    choices: departments,
   }
 ])
 
@@ -122,7 +133,8 @@ function addRole() {
       console.log('New role added successfully to the database!', res);
       main();
     });
-  })
+  });
+});
 };
 
 function addEmployee() {
